@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash, jsonify
-from app.models import db, User
+from app.models import db, User, Reflexion
 import os
 from datetime import datetime
 from functools import wraps
@@ -174,7 +174,7 @@ def dashboard():
 @auth_bp.route("/admin/solicitudes", methods=["GET", "POST"])
 @solo_admin
 def ver_solicitudes():
-    from manual_pin_change import listar_solicitudes
+    from tools.manual_pin_change import listar_solicitudes
     solicitudes = listar_solicitudes()
 
     email_filtro = request.args.get('email')

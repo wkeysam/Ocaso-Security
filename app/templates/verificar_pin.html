@@ -2,46 +2,24 @@
 
 {% block title %}Verificar Contraseña - Ocaso{% endblock %}
 
+{% block head %}
+    {{ super() }}
+    <!-- Espacio reservado para JS -->
+{% endblock %}
+
 {% block content %}
-<style>
-  body { font-family: 'Segoe UI', sans-serif; background: #fff; text-align: center; margin-top: 100px; }
-  input, button {
-    width: 300px; padding: 10px; margin: 5px 0; border-radius: 6px;
-    border: 1px solid #ccc; font-size: 16px;
-  }
-  button {
-    background-color: #78b13f; color: white; border: none; cursor: pointer;
-  }
-  .pin-btn {
-    background: none; color: #78b13f; border: none; font-size: 14px;
-    margin-top: 20px; cursor: pointer;
-  }
-  .flash-message {
-    padding: 12px; margin: 20px auto; border-radius: 6px; max-width: 600px; font-weight: bold;
-  }
-  .flash-success { background: #d4edda; color: #155724; }
-  .flash-danger  { background: #f8d7da; color: #721c24; }
-  .flash-warning { background: #fff3cd; color: #856404; }
-</style>
+<div class="auth-container"> {# Usamos el mismo contenedor para consistencia con login/registro #}
+    <h1>Verifica tu contraseña</h1>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="flash-message flash-{{ category }}">{{ message }}</div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
+    <p>Usuario: <strong>{{ session.get('username', 'Desconocido') }}</strong></p>
 
-<h1>Verifica tu contraseña</h1>
+    <form method="POST" action="{{ url_for('auth.verificar_pin') }}">
+        <input type="password" name="pin" placeholder="Introduce tu contraseña" required><br>
+        <button type="submit">Verificar</button>
+    </form>
 
-<p>Usuario: <strong>{{ session.get('username', 'Desconocido') }}</strong></p>
-
-<form method="POST" action="{{ url_for('auth.verificar_pin') }}">
-  <input name="pin" type="password" placeholder="Introduce tu contraseña" required><br>
-  <button type="submit">Verificar</button>
-</form>
-
-<form action="{{ url_for('auth.login') }}">
-  <button class="pin-btn">← Volver al inicio de sesión</button>
-</form>
+    <form action="{{ url_for('auth.login') }}">
+        <button class="pin-btn">← Volver al inicio de sesión</button>
+    </form>
+</div>
 {% endblock %}

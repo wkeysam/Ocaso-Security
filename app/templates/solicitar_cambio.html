@@ -1,36 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Solicitar Cambio de PIN - Ocaso</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-  <div class="container">
+{% extends "base.html" %}
+
+{% block title %}Solicitar Cambio de PIN - Ocaso{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    {# Si esta página necesitara algún CSS o JS MUY específico, iría aquí #}
+{% endblock %}
+
+{% block content %}
+    {# base.html ya proporciona el <div class="container"> alrededor del {% block content %}
+       así que no necesitamos repetirlo aquí, a menos que el de base.html sea diferente
+       o no exista. Asumiendo que base.html ya tiene <div class="container">...{% block content %}...</div> #}
+
     <h1>Solicitar Cambio de PIN</h1>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="flash-message flash-{{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+    {# Los mensajes flash se mostrarán automáticamente por base.html #}
 
     <form method="POST" action="{{ url_for('auth.solicitar_cambio') }}">
-      <label for="email">Tu correo electrónico</label>
-      <input type="email" name="email" placeholder="usuario@ejemplo.com" required>
+        <label for="email">Tu correo electrónico</label>
+        <input type="email" name="email" placeholder="usuario@ejemplo.com" required>
 
-      <label for="mensaje">Motivo o comentario (opcional)</label>
-      <textarea name="mensaje" rows="4" placeholder="¿Por qué deseas cambiar tu PIN?"></textarea>
+        <label for="mensaje">Motivo o comentario (opcional)</label>
+        <textarea name="mensaje" rows="4" placeholder="¿Por qué deseas cambiar tu PIN?"></textarea>
 
-      <button type="submit">Enviar solicitud</button>
+        <button type="submit">Enviar solicitud</button>
     </form>
 
     <form action="{{ url_for('auth.login') }}" style="margin-top: 20px;">
-      <button class="pin-btn">← Volver al inicio de sesión</button>
+        <button class="pin-btn">← Volver al inicio de sesión</button>
     </form>
-  </div>
-</body>
-</html>
+{% endblock %}
 

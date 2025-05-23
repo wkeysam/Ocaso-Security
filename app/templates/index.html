@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Ocaso</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #fff; margin: 0; padding: 20px; }
+    h1, h2, h3 { color: #2f4f4f; }
+    .section { margin-bottom: 40px; }
+    .zona-reflexion {
+      background: #fff3cd; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ddd;
+    }
+    textarea {
+      width: 100%; padding: 10px; border-radius: 6px;
+      border: 1px solid #ccc; font-family: inherit; resize: vertical;
+    }
+    button {
+      background-color: #78b13f; color: white; border: none; padding: 10px 20px;
+      border-radius: 6px; cursor: pointer; margin-top: 10px;
+    }
+    .pin-btn {
+      background: none;
+      color: #78b13f;
+      border: none;
+      font-size: 14px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    canvas { max-width: 100%; height: auto; }
+    pre { background: #f5f5f5; padding: 10px; overflow-y: auto; max-height: 200px; }
+  </style>
+</head>
+<body>
+
+  <!-- Encabezado de sesión -->
+  <div style="text-align: right;">
+    <form method="GET" action="{{ url_for('main.logout') }}" style="display: inline;">
+      <button class="pin-btn">Cerrar sesión</button>
+    </form>
+    <span style="color: #555; font-size: 14px;">Sesión de: <strong>{{ session.get('username', 'Usuario') }}</strong></span>
+  </div>
+
+{% extends "base.html" %}
+{% block title %}Dashboard - Ocaso{% endblock %}
+{% block content %}
+
+<h1>Bienvenido a tu espacio en Ocaso</h1>
+
+<div class="section">
+  <h2>Resumen personal</h2>
+  <p>Total de reflexiones: <strong>{{ total_reflexiones }}</strong></p>
+  <p>Última reflexión: <strong>{{ ultima_fecha }}</strong></p>
+</div>
+
+<div class="section">
+  <h2>Gastos en Tiempo Real</h2>
+  <canvas id="graficoGastos" width="600" height="300"></canvas>
+</div>
+
+<div class="section">
+  <h2>Gastos del Día Anterior</h2>
+  <p id="gastoAyer">Cargando...</p>
+</div>
+
+<div class="section">
+  <h2>Logs de Seguridad Recientes</h2>
+  <pre id="logsSeguridad">Cargando...</pre>
+</div>
+
+{% if usuario_suspendido %}
+<div class="section zona-reflexion">
+  <h2>Zona de Reflexión 🧘‍♂️</h2>
+  <blockquote>"{{ frase_reflexiva }}"</blockquote>
+
+  <form method="POST" action="/reflexion/guardar">
+    <textarea name="reflexion" rows="4" placeholder="Escribe tus pensamientos aquí..."></textarea>
+    <button type="submit">Guardar reflexión</button>
+  </form>
+
+  <div style="margin-top: 20px;">
+    <h3>Tus reflexiones anteriores</h3>
+    {% for nota in notas_reflexion %}
+      <div style="background:#fff; border-left: 4px solid #78b13f; padding: 10px; margin-bottom: 10px;">
+        {{ nota.contenido }}
+        <div style="font-size: 12px; color: #666;">🕒 {{ nota.fecha_creacion.strftime('%d/%m/%Y') }}</div>
+      </div>
+    {% else %}
+      <p>No has escrito ninguna reflexión todavía.</p>
+    {% endfor %}
+  </div>
+
+  <p style="margin-top: 15px; color: #666;">
+    Te quedan <strong>{{ dias_restantes }}</strong> días de reflexión.
+  </p>
+
+  <form method="GET" action="/dashboard">
+    <button class="pin-btn">Seguir reflexionando más tarde</button>
+  </form>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  fetch('/api/gastos-dia')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('gastoAyer').textContent = data.gasto + ' USD';
+      const ctx = document.getElementById('graficoGastos').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.fechas,
+          datasets: [{
+            label: 'Gasto Diario (USD)',
+            data: data.valores,
+            borderColor: '#78b13f',
+            borderWidth: 2,
+            tension: 0.3,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    });
+
+  fetch('/api/logs-seguridad')
+    .then(res => res.text())
+    .then(texto => {
+      document.getElementById('logsSeguridad').textContent = texto;
+    });
+</script>
+{% endblock %}
+
+</body>
+</html>

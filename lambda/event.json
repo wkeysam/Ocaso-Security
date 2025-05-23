@@ -1,0 +1,15 @@
+{
+  "Records": [
+    {
+      "s3": {
+        "bucket": {
+          "name": "mytemple23"
+        },
+        "object": {
+          "key": "example.csv.gz"
+        }
+      }
+    }
+  ]
+}
+

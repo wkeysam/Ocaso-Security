@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Ocaso{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- Cabecera de navegación -->
+  {% if session.get('autenticado') %}
+  <div style="text-align: right; padding: 10px 20px;">
+    <form method="GET" action="{{ url_for('main.logout') }}" style="display: inline;">
+      <button class="pin-btn">Cerrar sesión</button>
+    </form>
+    <span style="color: #555; font-size: 14px;">
+      Sesión de: <strong>{{ session.get('username', 'Usuario') }}</strong>
+    </span>
+  </div>
+  {% endif %}
+
+  <!-- Contenido dinámico -->
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+
+</body>
+</html>

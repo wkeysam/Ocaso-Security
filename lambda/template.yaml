@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Lambda para procesar reportes de costos de AWS y guardarlos en Aurora PostgreSQL.
+
+Resources:
+  CostReportParser:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CostReportParser
+      Runtime: python3.10
+      Handler: handler.lambda_handler
+      CodeUri: .
+      MemorySize: 128
+      Timeout: 10
+      Environment:
+        Variables:
+          DB_NAME: "postgres"
+          DB_HOST: "proyectodtbia-instance-1.cdkg6qo6gdcz.eu-north-1.rds.amazonaws.com"
+          DB_PORT: "5432"
+          SECRET_ARN: "arn:aws:secretsmanager:eu-north-1:097155544795:secret:rds-db-credentials/agasmau"
+      Events:
+        S3UploadTrigger:
+          Type: S3
+          Properties:
+            Bucket: mytemple23
+            Events: s3:ObjectCreated:*
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - SecretsManagerReadWrite
+        - S3ReadPolicy:
+            BucketName: mytemple23
+
+
+

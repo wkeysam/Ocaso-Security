@@ -1,12 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Iniciar Sesión - Ocaso{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
 {% block content %}
-<div class="auth-container">
+<div class="auth-container"> {# <--- ESTA LÍNEA ES CLAVE #}
     <h1>Inicia sesión en Ocaso</h1>
     <form method="POST" action="{{ url_for('auth.login') }}">
-        <input type="text" name="username" placeholder="Nombre de usuario" required><br> {# Asumiendo que usará el estilo de input[type="text"] #}
-        <input type="password" name="pin" placeholder="Contraseña" required><br> {# Asumiendo que usará el estilo de input[type="password"] #}
-        <button type="submit">Entrar</button> {# Usará el estilo general de button #}
+        <input type="text" name="username" placeholder="Nombre de usuario" required><br>
+        <input type="password" name="pin" placeholder="Contraseña" required><br>
+        <button type="submit">Entrar</button>
     </form>
-    <form action="{{ url_for('auth.solicitar_cambio') }}">
+    <form action="{{ url_for('auth.solicitar_cambio') }}"> {# Ya corregido #}
         <button class="pin-btn"><span>🔑</span><span>¿Olvidaste tu contraseña?</span></button>
     </form>
     <form action="{{ url_for('auth.registro') }}">

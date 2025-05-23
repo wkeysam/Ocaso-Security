@@ -56,7 +56,7 @@ Opera en sistemas **Windows** y está lista para desplegarse en entornos **AWS**
 ## 🚀 Instalación y Uso Local (Ejemplo con *OcasoNotes*)
 
 ```bash
-git clone https://github.com/wkeysam/OcasoNotes.git  # Verifica que sea el repo correcto
+git clone https://github.com/wkeysam/Ocaso-Security.git  # Verifica que sea el repo correcto
 cd ocaso                    # O el nombre del directorio clonado
 python3 -m venv venv
 source venv/bin/activate    # En Windows: venv\Scripts\activate

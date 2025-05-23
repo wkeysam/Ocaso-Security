@@ -1,155 +1,239 @@
-/* ========= Estilos generales ========= */
+/* ========= Estilos Generales ========= */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #ffffff;
+    background-color: #ffffff; /* Fondo blanco por defecto para todo el sitio */
+    color: #333; /* Color de texto principal */
     margin: 0;
     padding: 0;
+    line-height: 1.6; /* Espaciado de línea para mejor legibilidad */
 }
 
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #f8f8f8;
-    padding: 30px;
+.container { /* Contenedor principal usado en base.html para el contenido general */
+    max-width: 960px; /* Un ancho común para contenedores principales, ajústalo si prefieres */
+    margin: 30px auto; /* Centrado y con margen superior/inferior */
+    padding: 20px;
+    background-color: #f8f8f8; /* Un fondo ligeramente gris para el área de contenido */
     border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.05); /* Sombra más sutil */
 }
 
-h1, h2, h3 {
-    color: #2f4f4f;
+h1, h2, h3, h4, h5, h6 {
+    color: #2f4f4f; /* Dark Slate Gray - buen color para cabeceras */
+    margin-top: 0; /* Evitar doble margen con el contenedor */
     margin-bottom: 20px;
 }
 
+/* ========= Contenedor Específico para Páginas de Autenticación (Login, Registro) ========= */
+.auth-container {
+    max-width: 400px;
+    margin: 80px auto 0 auto; /* Margen superior, centrado horizontalmente */
+    padding: 30px;
+    text-align: center;
+    background-color: #ffffff; /* Fondo blanco para el cuadro de login */
+    border-radius: 10px;
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.1); /* Sombra para destacar el cuadro */
+}
+
+.auth-container h1 {
+    margin-bottom: 25px;
+}
+
+.auth-container form {
+    margin-bottom: 20px; /* Espacio entre formularios (si hay varios) */
+}
+
 /* ========= Formularios ========= */
+label { /* Estilo para etiquetas de formulario si las usas explícitamente */
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    text-align: left; /* Alinear etiquetas a la izquierda si están fuera de .auth-container */
+}
+
 input[type="text"],
 input[type="password"],
 input[type="email"],
 select,
 textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0 20px 0;
+    width: 100%; /* Ocupa el ancho del contenedor del formulario */
+    padding: 12px 15px; /* Más padding para un look moderno */
+    margin-bottom: 15px; /* Espacio debajo de cada input */
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Crucial para que padding no afecte el width */
+    font-size: 16px;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #78b13f; /* Resaltar el borde con tu color primario */
+    box-shadow: 0 0 5px rgba(120, 177, 63, 0.5); /* Sombra suave al enfocar */
+    outline: none; /* Quitar el outline por defecto del navegador */
+}
+
+textarea {
+    resize: vertical; /* Permitir redimensionar solo verticalmente */
+    min-height: 80px;
 }
 
 /* ========= Botones ========= */
-button {
-    background-color: #78b13f;
+button,
+.button { /* Clase genérica .button por si quieres aplicar estilo a enlaces <a> como si fueran botones */
+    display: inline-block; /* Para que el padding y width funcionen bien */
+    background-color: #78b13f; /* Tu color verde primario */
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border-radius: 8px;
     cursor: pointer;
-    width: 100%;
+    width: 100%; /* Botones de formulario por defecto a ancho completo */
     font-size: 18px;
-    transition: background-color 0.2s ease-in-out;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none; /* Por si usas la clase .button en un <a> */
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+    box-sizing: border-box;
 }
 
-button:hover {
-    background-color: #5a9e2f;
+button:hover,
+.button:hover {
+    background-color: #5a9e2f; /* Un verde más oscuro al pasar el ratón */
+    transform: translateY(-1px); /* Ligero efecto de levantamiento */
 }
 
+button:active,
+.button:active {
+    transform: translateY(0); /* Efecto de presión */
+}
+
+/* Botones de tipo "enlace" o secundarios (como el pin-btn) */
 .pin-btn {
-    background: none;
-    color: #78b13f;
-    border: none;
-    font-size: 14px;
-    margin-top: 15px;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-button.pin-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+    background: none !important; /* Importante para asegurar que no tome el background del button general */
+    color: #78b13f !important;
+    border: none !important;
+    font-size: 14px !important;
+    margin-top: 15px !important;
+    padding: 5px !important; /* Menos padding para un look más de enlace */
+    width: auto !important; /* Para que no ocupe el 100% */
+    text-decoration: underline !important;
+    font-weight: normal !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .pin-btn:hover {
-    color: #5a9e2f;
+    color: #5a9e2f !important;
+    text-decoration: underline !important;
+    transform: none !important; /* Quitar efecto de levantamiento para estos */
 }
 
-/* ========= Flash messages ========= */
+/* ========= Flash Messages ========= */
 .flash-message {
-    padding: 12px;
-    margin: 20px auto;
-    border-radius: 6px;
-    max-width: 600px;
+    padding: 15px; /* Un poco más de padding */
+    margin: 20px 0; /* Margen superior e inferior, sin centrado horizontal por defecto (el contenedor lo hará) */
+    border-radius: 8px; /* Coincide con otros border-radius */
     font-weight: bold;
-    text-align: center;
+    text-align: center; /* Centrar el texto dentro del mensaje */
+    border: 1px solid transparent; /* Borde base */
 }
 
 .flash-success {
-    background: #d4edda;
-    color: #155724;
+    background-color: #d1e7dd; /* Verde más suave */
+    color: #0f5132;
+    border-color: #badbcc;
 }
 
 .flash-danger {
-    background: #f8d7da;
-    color: #721c24;
+    background-color: #f8d7da;
+    color: #842029;
+    border-color: #f5c2c7;
 }
 
 .flash-warning {
-    background: #fff3cd;
-    color: #856404;
+    background-color: #fff3cd;
+    color: #664d03;
+    border-color: #ffecb5;
 }
 
-/* ========= Reflexión personalizada ========= */
+/* ========= Zona de Reflexión (si es de index.html) ========= */
 .zona-reflexion {
-    background: #fff3cd;
+    background: #fff9e6; /* Un amarillo más pálido */
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px #ddd;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
     margin-top: 30px;
+    border-left: 5px solid #e0a800; /* Borde izquierdo de color */
 }
 
-blockquote {
-    border-left: 4px solid #e0a800;
-    padding-left: 15px;
+.zona-reflexion blockquote {
+    border-left: none; /* Ya tenemos borde en el contenedor principal de la zona */
+    padding-left: 0;
     font-style: italic;
-    color: #444;
+    color: #555;
     margin: 10px 0 20px;
 }
 
-/* ========= Contenedor de logs ========= */
-pre {
+/* ========= Contenedor de Logs (si es de index.html) ========= */
+pre#logsSeguridad { /* Si es un ID específico */
     background: #f5f5f5;
-    padding: 10px;
+    padding: 15px;
     overflow-y: auto;
-    max-height: 200px;
+    max-height: 250px; /* Un poco más de altura */
     border-radius: 8px;
-    font-family: monospace;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; /* Buenas fuentes monoespaciadas */
+    font-size: 14px;
+    border: 1px solid #e0e0e0;
 }
 
 /* ========= Responsive ========= */
-@media (max-width: 480px) {
-    .container {
-        width: 90%;
-        margin: 20px auto;
-        padding: 15px;
+@media (max-width: 768px) { /* Para tablets y móviles grandes */
+    .container,
+    .auth-container {
+        width: 90%; /* Más ancho en pantallas pequeñas */
+        margin-top: 20px;
+        padding: 20px;
     }
 
-    button {
+    .auth-container {
+        margin-top: 40px;
+    }
+
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.5em; }
+
+    button, .button {
+        padding: 10px 15px;
         font-size: 16px;
     }
 }
 
-@media (max-width: 768px) {
-    .container {
-        width: 80%;
+@media (max-width: 480px) { /* Para móviles pequeños */
+    body {
+        font-size: 15px; /* Aumentar ligeramente la fuente base en móviles */
     }
-}
 
-@media (max-width: 1024px) {
-    .container {
-        width: 70%;
+    .container,
+    .auth-container {
+        width: 95%;
+        padding: 15px;
+        border-radius: 0; /* A veces se prefiere sin bordes redondeados en móviles muy pequeños */
+    }
+
+    .auth-container {
+        margin-top: 20px;
+    }
+    
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    select,
+    textarea {
+        font-size: 15px;
+        padding: 10px;
     }
 }
